@@ -11,7 +11,10 @@ environment:
 dependencies:
   # path: ^1.8.0
   tick_stream:
-    path: ../../
+    git:
+      url: git@github.com:naif-deriv/core-plugin-arch-poc.git
+      ref: master
+      path: core/tick_stream
 
   flutter_deriv_api:
     git:

@@ -10,8 +10,13 @@ environment:
 # Add regular dependencies here.
 dependencies:
   # path: ^1.8.0
+
   active_symbols_deriv_one:
-    path: ../../../core/active_symbols/adapters/active_symbols_deriv_one
+    git:
+      url: git@github.com:naif-deriv/core-plugin-arch-poc.git
+      ref: master
+      path: core/active_symbols/adapters/active_symbols_deriv_one
+
   bloc: ^8.1.2
 
 dev_dependencies:

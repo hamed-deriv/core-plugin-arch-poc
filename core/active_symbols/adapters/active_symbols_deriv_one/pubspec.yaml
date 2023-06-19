@@ -11,7 +11,10 @@ environment:
 dependencies:
   # path: ^1.8.0
   active_symbols:
-    path: ../../
+    git:
+      url: git@github.com:naif-deriv/core-plugin-arch-poc.git
+      ref: master
+      path: core/active_symbols
 
   flutter_deriv_api:
     git:

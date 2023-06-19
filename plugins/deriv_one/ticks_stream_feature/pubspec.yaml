@@ -12,9 +12,15 @@ dependencies:
   # path: ^1.8.0
   flutter:
     sdk: flutter
+
   flutter_bloc: ^8.1.3
+
   tick_stream_deriv_one:
-    path: ../../../core/tick_stream/adapters/tick_stream_deriv_one
+    git:
+      url: git@github.com:naif-deriv/core-plugin-arch-poc.git
+      ref: master
+      path: core/tick_stream/adapters/tick_stream_deriv_one
+
   mini_mq:
     git:
       url: git@github.com:naif-deriv/DartMQ.git

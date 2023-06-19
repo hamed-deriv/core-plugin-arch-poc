@@ -12,23 +12,25 @@ packages:
   active_symbols:
     dependency: transitive
     description:
-      path: "../core/active_symbols"
+      path: "../../../../../.pub-cache/git/core-plugin-arch-poc-e7d56b6b9d3ce86c933118d79fc4163a820fcd2f/core/active_symbols"
       relative: true
     source: path
     version: "1.0.0"
   active_symbols_deriv_one:
     dependency: transitive
     description:
-      path: "../core/active_symbols/adapters/active_symbols_deriv_one"
+      path: "../../../../../.pub-cache/git/core-plugin-arch-poc-e7d56b6b9d3ce86c933118d79fc4163a820fcd2f/core/active_symbols/adapters/active_symbols_deriv_one"
       relative: true
     source: path
     version: "1.0.0"
   active_symbols_feature:
     dependency: "direct main"
     description:
-      path: "../plugins/deriv_one/active_symbols_feature"
-      relative: true
-    source: path
+      path: "plugins/deriv_one/active_symbols_feature"
+      ref: master
+      resolved-ref: e7d56b6b9d3ce86c933118d79fc4163a820fcd2f
+      url: "git@github.com:naif-deriv/core-plugin-arch-poc.git"
+    source: git
     version: "1.0.0"
   analyzer:
     dependency: transitive
@@ -57,7 +59,7 @@ packages:
   base_core:
     dependency: transitive
     description:
-      path: "../core/base_core"
+      path: "../../../../../.pub-cache/git/core-plugin-arch-poc-e7d56b6b9d3ce86c933118d79fc4163a820fcd2f/core/base_core"
       relative: true
     source: path
     version: "1.0.0"
@@ -228,7 +230,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_bloc
       sha256: e74efb89ee6945bcbce74a5b3a5a3376b088e5f21f55c263fc38cbdc6237faae
@@ -503,23 +505,25 @@ packages:
   tick_stream:
     dependency: transitive
     description:
-      path: "../core/tick_stream"
+      path: "../../../../../.pub-cache/git/core-plugin-arch-poc-e7d56b6b9d3ce86c933118d79fc4163a820fcd2f/core/tick_stream"
       relative: true
     source: path
     version: "1.0.0"
   tick_stream_deriv_one:
     dependency: transitive
     description:
-      path: "../core/tick_stream/adapters/tick_stream_deriv_one"
+      path: "../../../../../.pub-cache/git/core-plugin-arch-poc-e7d56b6b9d3ce86c933118d79fc4163a820fcd2f/core/tick_stream/adapters/tick_stream_deriv_one"
       relative: true
     source: path
     version: "1.0.0"
   ticks_stream_feature:
     dependency: "direct main"
     description:
-      path: "../plugins/deriv_one/ticks_stream_feature"
-      relative: true
-    source: path
+      path: "plugins/deriv_one/ticks_stream_feature"
+      ref: master
+      resolved-ref: e7d56b6b9d3ce86c933118d79fc4163a820fcd2f
+      url: "git@github.com:naif-deriv/core-plugin-arch-poc.git"
+    source: git
     version: "1.0.0"
   typed_data:
     dependency: transitive
