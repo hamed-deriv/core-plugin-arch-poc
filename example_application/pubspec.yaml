@@ -1,0 +1,40 @@
+name: example_application
+description: A new Flutter project.
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.2 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+
+  mini_mq:
+    git:
+      url: git@github.com:naif-deriv/DartMQ.git
+      ref: master
+      path: mini_mq
+
+  flutter_deriv_api:
+    git:
+      url: git@github.com:deriv-com/flutter-deriv-api.git
+      ref: flutter-version-3
+
+  active_symbols_feature:
+    path: ../plugins/deriv_one/active_symbols_feature
+
+  ticks_stream_feature:
+    path: ../plugins/deriv_one/ticks_stream_feature
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
