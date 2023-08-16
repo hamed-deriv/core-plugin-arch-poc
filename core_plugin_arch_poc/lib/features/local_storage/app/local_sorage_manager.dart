@@ -62,6 +62,8 @@ final class LocalStorageManager extends BaseLoacalStorageManager
         final String key = message['args']['key'];
         final String value = message['args']['value'];
         await secureStoragePlugin.setSingle(key, value);
+        final Completer completer = message['completer'];
+        completer.complete();
         break;
       default:
     }

@@ -1,10 +1,8 @@
-import 'package:core_plugin_arch_poc/core/adapter_plugin/base.adapters_plugins.dart';
 import 'package:core_plugin_arch_poc/features/local_storage/data/datasource/base.local_storage.datasource.dart';
 import 'package:core_plugin_arch_poc/features/local_storage/data/datasource/shared_preferences.datasource.dart';
 import 'package:core_plugin_arch_poc/features/local_storage/domain/contracts/local_storage.contract.dart';
 
 class SharedPreferencesRepositoryImplementation
-    extends BaseRepositoryImplementation
     implements LocalStorageRepositoryContract {
   @override
   BaseLocalStorageDataSource get dataSource => SharedPreferencesDataSource();

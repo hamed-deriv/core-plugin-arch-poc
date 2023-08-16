@@ -12,9 +12,10 @@ class TickStreamGraphPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConnectivityListenerWidget(
       child: BlocProvider<TickStreamCubit>(
-        create: (context) => TickStreamCubit(
-          TickStreamPlugin(),
+        create: (context) => TickStreamCubit.seedSymbol(
+          plugin: TickStreamPlugin(),
           tickStreamMessaging: TickStreamMessaging(),
+          symbol: TickStreamMessaging().getLatestChosenSymbol(),
         ),
         child: BlocBuilder<TickStreamCubit, TickStreamState>(
           builder: (context, state) {

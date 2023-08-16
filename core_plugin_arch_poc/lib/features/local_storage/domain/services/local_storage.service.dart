@@ -1,6 +1,6 @@
 import 'package:core_plugin_arch_poc/core/domain/base.domain.dart';
 
-abstract class LocalStorageService extends BaseService {
+abstract interface class LocalStorageService extends BaseService {
   Future<String?> get(String key);
 
   Future<List<String?>?> getMultiple(String key);

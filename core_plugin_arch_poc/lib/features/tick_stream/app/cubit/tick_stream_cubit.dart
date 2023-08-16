@@ -11,10 +11,6 @@ class TickStreamCubit extends Cubit<TickStreamState> {
     this._plugin, {
     required this.tickStreamMessaging,
   }) : super(TickStreamInitial()) {
-    final String symbol = tickStreamMessaging.getLatestChosenSymbol();
-    if (symbol.isNotEmpty) {
-      fetchTickStream(tickStreamMessaging.getLatestChosenSymbol());
-    }
     tickStreamMessaging.listenToRPCMessages(
       onForgetTickStreamRequested: forgetTickStream,
     );
@@ -23,33 +19,39 @@ class TickStreamCubit extends Cubit<TickStreamState> {
     );
   }
 
+  factory TickStreamCubit.seedSymbol({
+    required TickStreamAdapter plugin,
+    required TickStreamMessagingInterface tickStreamMessaging,
+    required String symbol,
+  }) =>
+      TickStreamCubit(
+        plugin,
+        tickStreamMessaging: tickStreamMessaging,
+      )..fetchTickStream(symbol);
+
   final TickStreamAdapter _plugin;
   final TickStreamMessagingInterface tickStreamMessaging;
 
   void fetchTickStream(String symbol, [int maxVisibleTicks = 50]) {
-    print('fetching symol $hashCode');
     emit(TickStreamLoading());
 
     try {
-      print('forgetting previous stream');
-      _plugin.forgetTickStream();
-
-      print('fetching new strem');
       _plugin.fetchTickStream(symbol).listen((TickStreamEntity tick) {
-        print('received tick ${tick.toJson()}');
-        final List<TickStreamEntity> ticks = <TickStreamEntity>[];
+        if (tick.symbol == symbol) {
+          final List<TickStreamEntity> ticks = <TickStreamEntity>[];
 
-        if (state is TickStreamLoaded) {
-          final TickStreamLoaded loadedState = state as TickStreamLoaded;
+          if (state is TickStreamLoaded) {
+            final TickStreamLoaded loadedState = state as TickStreamLoaded;
 
-          ticks.addAll(<TickStreamEntity>[...loadedState.ticks, tick]);
+            ticks.addAll(<TickStreamEntity>[...loadedState.ticks, tick]);
 
-          if (ticks.length > maxVisibleTicks) {
-            ticks.removeRange(0, ticks.length - maxVisibleTicks);
+            if (ticks.length > maxVisibleTicks) {
+              ticks.removeRange(0, ticks.length - maxVisibleTicks);
+            }
           }
-        }
 
-        emit(TickStreamLoaded(ticks));
+          emit(TickStreamLoaded(ticks));
+        }
       });
     } on Exception catch (e) {
       print(e.toString());
@@ -61,6 +63,7 @@ class TickStreamCubit extends Cubit<TickStreamState> {
 
   @override
   close() async {
+    print('closing cubit');
     _plugin.forgetTickStream();
     tickStreamMessaging.unSubscribeFromSymbolStream();
     tickStreamMessaging.unSubscribeFromRPCStream();

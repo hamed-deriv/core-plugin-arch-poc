@@ -1,12 +1,8 @@
-import 'package:core_plugin_arch_poc/core/adapter_plugin/base.adapters_plugins.dart';
 import 'package:core_plugin_arch_poc/features/local_storage/adapter_plugin/adapters/local_storage.adapter.dart';
-import 'package:core_plugin_arch_poc/features/local_storage/adapter_plugin/repository_implementation/secure_storage.repository_implementation.dart';
-import 'package:core_plugin_arch_poc/features/local_storage/domain/contracts/local_storage.contract.dart';
+import 'package:core_plugin_arch_poc/features/local_storage/adapter_plugin/repository/secure_storage.repository.dart';
 
-class SecureStoragePlugin extends BasePlugin implements LocalStorageAdapter {
-  @override
-  LocalStorageRepositoryContract get repository =>
-      SecureStorageRepositoryImplementation();
+final class SecureStoragePlugin extends LocalStorageAdapter {
+  SecureStoragePlugin() : super(SecureStorageRepositoryImplementation());
 
   @override
   Future<String?> get(String key) async => await repository.getString(key);

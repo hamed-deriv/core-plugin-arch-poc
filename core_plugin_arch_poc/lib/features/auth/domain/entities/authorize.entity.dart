@@ -1,6 +1,6 @@
 import 'package:core_plugin_arch_poc/core/domain/base.domain.dart';
 
-class AuthorizeEntity extends BaseEntity {
+final class AuthorizeEntity extends BaseEntity {
   AuthorizeEntity({
     required this.token,
   });
