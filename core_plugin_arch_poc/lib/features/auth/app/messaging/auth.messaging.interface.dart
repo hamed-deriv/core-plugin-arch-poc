@@ -7,6 +7,8 @@ abstract interface class AuthMessagingInterface extends BaseMessagingInterface {
 
   void forgetToken();
 
+  Future<void> logout();
+
   void sendLoggedInnMessage();
 
   void sendLoggedOutMessage();

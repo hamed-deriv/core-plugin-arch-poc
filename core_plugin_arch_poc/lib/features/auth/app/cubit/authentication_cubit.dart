@@ -21,7 +21,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           return false;
         }
       },
-      onLogoutRequested: logout,
+      onLogoutRequested: () {
+        logout();
+        messagingInterface.forgetToken();
+      },
       onForgetUserRequested: messagingInterface.forgetToken,
     );
   }

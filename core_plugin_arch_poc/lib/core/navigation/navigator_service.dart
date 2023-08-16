@@ -17,4 +17,11 @@ class NavigatorService {
 
   static void pop<T extends Object?>(BuildContext context, [T? result]) =>
       Navigator.pop(context, result);
+
+  static void pushAndRemoveUntil(BuildContext context, Widget page) =>
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => page),
+        (route) => false,
+      );
 }

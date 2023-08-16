@@ -15,10 +15,13 @@ class AuthenticationPage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           body: Center(
-            child: TokenForm(
-              onSubmit: (String token) {
-                context.read<AuthenticationCubit>().login(token);
-              },
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: TokenForm(
+                onSubmit: (String token) {
+                  context.read<AuthenticationCubit>().login(token);
+                },
+              ),
             ),
           ),
         );
@@ -55,15 +58,6 @@ class AuthenticationPage extends StatelessWidget {
         );
         break;
       default:
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Error'),
-              content: Text((state as AuthenticationError).error),
-            );
-          },
-        );
         break;
     }
   }

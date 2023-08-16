@@ -1,3 +1,5 @@
+import 'package:core_plugin_arch_poc/core/navigation/navigator_service.dart';
+import 'package:core_plugin_arch_poc/features/auth/presentation/pages/authentication_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kafka_clone/shelf.dart';
@@ -18,11 +20,15 @@ class AuthenticationBarLayout extends StatelessWidget with ProducerMixin {
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
         return AuthenticationBar(
-          onLogOut: () => sendRPCMessage(
-            'Authentication',
-            processId: 'logout',
-            args: {},
-          ),
+          onLogOut: () async {
+            await authMessaging.logout();
+            if (context.mounted) {
+              NavigatorService.pushAndRemoveUntil(
+                context,
+                const AuthenticationPage(),
+              );
+            }
+          },
           onDeleteToken: () => authMessaging.forgetToken(),
         );
       },

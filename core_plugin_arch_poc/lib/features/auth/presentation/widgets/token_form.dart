@@ -19,12 +19,28 @@ class TokenForm extends StatelessWidget {
           controller: _controller,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
+            labelStyle: TextStyle(color: Colors.grey),
             labelText: 'Token',
           ),
         ),
+        const SizedBox(
+          height: 12.0,
+        ),
         TextButton(
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            backgroundColor: MaterialStateProperty.all(
+              Colors.grey[300],
+            ),
+          ),
           onPressed: () => onSubmit(_controller.text),
-          child: const Text('Log In'),
+          child: const Text(
+            'Log In',
+          ),
         ),
       ],
     );

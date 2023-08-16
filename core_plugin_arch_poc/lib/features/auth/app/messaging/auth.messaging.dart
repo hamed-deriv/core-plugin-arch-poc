@@ -66,4 +66,11 @@ final class AuthMessaging
 
   @override
   void sendLoggedOutMessage() => sendMessage('Authentication', 'LoggedOut');
+
+  @override
+  Future<void> logout() async => await sendRPCMessage(
+        'AuthenticationController',
+        processId: 'logout',
+        args: {},
+      );
 }
