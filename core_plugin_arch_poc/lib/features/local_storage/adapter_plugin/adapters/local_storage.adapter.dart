@@ -4,7 +4,7 @@ import 'package:core_plugin_arch_poc/features/local_storage/domain/services/loca
 
 abstract base class LocalStorageAdapter extends BaseAdapter
     implements LocalStorageService {
-  LocalStorageAdapter(this.repository);
+  LocalStorageAdapter(this.repository) : super(repository);
 
   final LocalStorageRepositoryContract repository;
 }

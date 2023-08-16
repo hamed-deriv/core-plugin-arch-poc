@@ -4,7 +4,7 @@ import 'package:core_plugin_arch_poc/features/tick_stream/domain/services/subscr
 
 abstract base class TickStreamAdapter extends BaseAdapter
     implements SubscribeTickStreamService {
-  TickStreamAdapter(this.repository);
+  TickStreamAdapter(this.repository) : super(repository);
 
   final TickStreamRepositoryContract repository;
 }

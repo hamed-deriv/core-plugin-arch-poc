@@ -4,7 +4,7 @@ import 'package:core_plugin_arch_poc/features/connectivity/domain/services/conne
 
 abstract base class ConnectivityAdapter extends BaseAdapter
     implements ConnectivityService {
-  ConnectivityAdapter(this.repository);
+  ConnectivityAdapter(this.repository) : super(repository);
 
   final ConnectivityRepositoryContract repository;
 }

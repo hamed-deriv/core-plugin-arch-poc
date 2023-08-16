@@ -7,7 +7,7 @@ final class TickStreamPlugin extends TickStreamAdapter {
 
   @override
   Stream<TickStreamEntity> fetchTickStream(String symbol) {
-    return repository.fetchTickStream(symbol);
+    return repository.fetchTickStream(symbol).asBroadcastStream();
   }
 
   @override

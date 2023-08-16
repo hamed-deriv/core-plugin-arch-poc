@@ -4,7 +4,7 @@ import 'package:core_plugin_arch_poc/features/active_symbols/domain/services/fet
 
 abstract base class ActiveSymbolAdapter extends BaseAdapter
     implements ActiveSymbolsFetchService {
-  ActiveSymbolAdapter(this.repository);
+  ActiveSymbolAdapter(this.repository) : super(repository);
 
   final ActiveSymbolsRepositoryContract repository;
 }

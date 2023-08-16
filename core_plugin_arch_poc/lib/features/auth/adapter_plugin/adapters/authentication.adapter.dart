@@ -4,7 +4,7 @@ import 'package:core_plugin_arch_poc/features/auth/domain/services/basic.authent
 
 abstract base class AuthenticationAdapter extends BaseAdapter
     implements AuthenticationService {
-  AuthenticationAdapter(this.repository);
+  AuthenticationAdapter(this.repository) : super(repository);
 
   final AuthenticationRepositoryContract repository;
 }
