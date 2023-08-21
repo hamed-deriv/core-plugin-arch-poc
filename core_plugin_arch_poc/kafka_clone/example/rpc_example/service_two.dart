@@ -2,33 +2,6 @@ import 'dart:async';
 
 import 'package:kafka_clone/shelf.dart';
 
-void main() {
-  MessageBroker.init();
-  MessageBroker().registerTopic('One');
-  MessageBroker().registerTopic('Two');
-
-  final ServiceOne serviceOne = ServiceOne();
-  final ServiceTwo serviceTwo = ServiceTwo();
-
-  serviceOne.foo();
-
-  serviceTwo.startListening();
-
-  serviceOne.foo();
-}
-
-class ServiceOne with ProducerMixin {
-  void foo() async {
-    print('Service One foo\n');
-    final String res = await sendRPCMessage<String>(
-      'Two',
-      processId: 'bar',
-      args: {},
-    );
-    print(res);
-  }
-}
-
 class ServiceTwo with ConsumerMixin {
   void startListening() {
     subscribeToTopic('Two', (Message message) async {
