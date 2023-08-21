@@ -63,7 +63,6 @@ class TickStreamCubit extends Cubit<TickStreamState> {
             }
           }
 
-          tickStreamMessaging.sendTickStreamState(TickStreamLoaded(ticks));
           emit(TickStreamLoaded(ticks));
         }
       });

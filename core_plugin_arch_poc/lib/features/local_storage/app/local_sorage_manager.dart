@@ -34,35 +34,46 @@ final class LocalStorageManager extends BaseLoacalStorageManager
   final LocalStorageAdapter sharedPreferencePlugin;
 
   void _handleSharedPreferencesRPC(Map<String, dynamic> message) async {
+    final Completer completer = message['completer'];
     switch (message['process_id']) {
       case 'fetch':
         final String key = message['args']['key'];
         final String? result = await sharedPreferencePlugin.get(key);
-        final Completer completer = message['completer'];
         completer.complete(result);
         break;
       case 'write':
         final String key = message['args']['key'];
         final String value = message['args']['value'];
         await sharedPreferencePlugin.setSingle(key, value);
+        completer.complete();
+        break;
+      case 'delete':
+        final String key = message['args']['key'];
+        await sharedPreferencePlugin.remove(key);
+        completer.complete();
         break;
       default:
     }
   }
 
   void _handleSecureStorageRPC(Map<String, dynamic> message) async {
+    final Completer completer = message['completer'];
     switch (message['process_id']) {
       case 'fetch':
         final String key = message['args']['key'];
         final String? result = await secureStoragePlugin.get(key);
-        final Completer completer = message['completer'];
         completer.complete(result);
         break;
       case 'write':
         final String key = message['args']['key'];
         final String value = message['args']['value'];
         await secureStoragePlugin.setSingle(key, value);
-        final Completer completer = message['completer'];
+        completer.complete();
+        break;
+
+      case 'delete':
+        final String key = message['args']['key'];
+        await secureStoragePlugin.remove(key);
         completer.complete();
         break;
       default:
