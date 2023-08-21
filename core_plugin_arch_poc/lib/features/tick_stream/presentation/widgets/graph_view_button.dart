@@ -28,7 +28,6 @@ class GraphViewButton extends StatelessWidget with ConsumerMixin {
         final String symbol = tickStreamMessaging.getLatestChosenSymbol();
         if (symbol.isNotEmpty) {
           if (context.mounted) {
-            tickStreamMessaging.forgetTickStream();
             NavigatorService.push(
               context,
               const TickStreamGraphPage(),

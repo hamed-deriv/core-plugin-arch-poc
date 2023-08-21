@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:core_plugin_arch_poc/features/tick_stream/adapter_plugin/adapters/tick_stream.adapter.dart';
@@ -15,7 +17,10 @@ class TickStreamCubit extends Cubit<TickStreamState> {
       onForgetTickStreamRequested: forgetTickStream,
     );
     tickStreamMessaging.subscribeToSymbolStream(
-      onSymbolChanged: fetchTickStream,
+      onSymbolChanged: (String chosenSymbol) {
+        forgetTickStream();
+        fetchTickStream(chosenSymbol);
+      },
     );
   }
 
@@ -32,11 +37,14 @@ class TickStreamCubit extends Cubit<TickStreamState> {
   final TickStreamAdapter _plugin;
   final TickStreamMessagingInterface tickStreamMessaging;
 
+  late StreamSubscription<TickStreamEntity>? _tickStreamSubscription;
+
   void fetchTickStream(String symbol, [int maxVisibleTicks = 50]) {
     emit(TickStreamLoading());
 
     try {
-      _plugin.fetchTickStream(symbol).listen((TickStreamEntity tick) {
+      _tickStreamSubscription =
+          _plugin.fetchTickStream(symbol).listen((TickStreamEntity tick) {
         if (tick.symbol == symbol) {
           final List<TickStreamEntity> ticks = <TickStreamEntity>[];
 
@@ -48,13 +56,18 @@ class TickStreamCubit extends Cubit<TickStreamState> {
             if (ticks.length > maxVisibleTicks) {
               ticks.removeRange(0, ticks.length - maxVisibleTicks);
             }
+          } else {
+            ticks.add((tick));
+            if (ticks.length > maxVisibleTicks) {
+              ticks.removeRange(0, ticks.length - maxVisibleTicks);
+            }
           }
 
+          tickStreamMessaging.sendTickStreamState(TickStreamLoaded(ticks));
           emit(TickStreamLoaded(ticks));
         }
       });
     } on Exception catch (e) {
-      print(e.toString());
       emit(TickStreamError('$e'));
     }
   }
@@ -63,8 +76,9 @@ class TickStreamCubit extends Cubit<TickStreamState> {
 
   @override
   close() async {
-    print('closing cubit');
-    _plugin.forgetTickStream();
+    if (_tickStreamSubscription != null) {
+      _tickStreamSubscription?.cancel();
+    }
     tickStreamMessaging.unSubscribeFromSymbolStream();
     tickStreamMessaging.unSubscribeFromRPCStream();
 
