@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:core_plugin_arch_poc/features/tick_stream/domain/entities/tick_stream.entity.dart';
+import 'package:core_plugin_arch_poc/features/tick_stream/domain/entities/tick_stream/tick_stream.entity.dart';
 
 class SymbolDataWidget extends StatelessWidget {
   const SymbolDataWidget({

@@ -3,9 +3,15 @@ import 'package:core_plugin_arch_poc/features/auth/data/models/authorize.model.d
 
 final class AuthenticationDataSource extends BaseAuthenticationDataSource {
   @override
-  Future<AuthorizeModel> login(String token) async {
-    return AuthorizeModel(token: token);
-  }
+  Future<AuthorizeModel> login(String token) async => await Future.delayed(
+        const Duration(seconds: 2),
+        () {
+          print('authentication');
+          return AuthorizeModel(
+            token: token,
+          );
+        },
+      );
 
   @override
   Future<void> logout() async {

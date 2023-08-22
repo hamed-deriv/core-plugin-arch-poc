@@ -1,6 +1,6 @@
 import 'package:core_plugin_arch_poc/features/tick_stream/adapter_plugin/adapters/tick_stream.adapter.dart';
 import 'package:core_plugin_arch_poc/features/tick_stream/adapter_plugin/repository/tick_stream.repository.dart';
-import 'package:core_plugin_arch_poc/features/tick_stream/domain/entities/tick_stream.entity.dart';
+import 'package:core_plugin_arch_poc/features/tick_stream/domain/entities/tick_stream/tick_stream.entity.dart';
 
 final class TickStreamPlugin extends TickStreamAdapter {
   TickStreamPlugin() : super(TickStreamRepository());

@@ -1,3 +1,5 @@
+import 'package:core_plugin_arch_poc/features/tick_stream/domain/entities/tick_stream/tick_stream.entity.dart';
+import 'package:core_plugin_arch_poc/features/tick_stream/presentation/widgets/basic_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core_plugin_arch_poc/features/connectivity/presentation/widgets/connectivity_listener_widget.dart';
@@ -29,13 +31,24 @@ class TickStreamGraphPage extends StatelessWidget {
                     TickStreamLoading() => Text(
                         state.toString(),
                       ),
-                    TickStreamLoaded() => SizedBox(
-                        height: 400,
-                        width: 400,
-                        child: Text(
-                          state.ticks.toString(),
-                        ),
+                    TickStreamLoaded() => BasicChart(
+                        data: (state)
+                            .ticks
+                            .map((TickStreamEntity entity) => BasicChartModel(
+                                  symbol: entity.symbol,
+                                  epoch: entity.epoch,
+                                  quote: entity.quote,
+                                  pipSize: entity.pipSize,
+                                ))
+                            .toList(),
                       ),
+                    // TickStreamLoaded() => SizedBox(
+                    //     height: 400,
+                    //     width: 400,
+                    //     child: Text(
+                    //       state.ticks.toString(),
+                    //     ),
+                    //   ),
                     TickStreamError() => Text(
                         state.toString(),
                       ),

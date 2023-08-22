@@ -6,13 +6,151 @@ Our journey to this new architecture was driven by a clear recognition of the ch
 
 This document presents a proposal for a new architecture for all Dart/Flutter projects at Deriv. The primary goal of this architecture is to establish a codebase that is modular, testable, maintainable, and extensible. The document will delve into the architecture in detail and explore its pros and cons. Furthermore, it will outline how this architecture addresses the problems we encounter in our current architecture. Lastly, it will detail the implementation of this architecture in our ongoing projects.
 
-<!-- Our journey to this new architecture was fueled by a clear recognition of the challenges posed by the rapidly evolving requirements of Deriv's mobile applications. The existing architecture, while serviceable, revealed limitations in flexibility, maintainability, and scalability as our app grew in complexity. These challenges translated into longer development cycles, increased technical debt, and potential bottlenecks when introducing new features or addressing user feedback promptly.
+## Current challenges:
 
-This document is a proposal for a new architecture for all Dart/Flutter projects in Deriv. The main goal of this architecture is to have a modular, testable, maintainable and extensible codebase. This document will explain the architecture in detail, and will also explain the pros and cons of this architecture. In addition, this document will explain how this architecture solves the problems that we are facing in our current architecture. Finally, this document will explain how this architecture can be implemented in our current projects. -->
+Before we take a general look at the architecture, we will go over some of the challenges we are currently facing and how we can solve them:
 
-## Diagram:
+- **Tight Coupling**: The current architecture is tightly coupled. This means that a change in one component can affect other components. This makes the codebase hard to maintain and test.
+
+- **Low Testability**: Due to the tight coupling, it is hard to test the codebase. Components are not dependent on abstractions, which makes it hard to pass mocks and test the components in isolation.
+
+- **Absence of Structure**: The codebase lacks well-defined boundaries and clear responsibilities for its components. New developers find it hard to comprehend the underlying structure and flow of the system.
+
+- **Low Modularity**: There is no domain layer to define the business logic entities and services, which makes the designed components hard to reuse.
+
+## Solution goals:
+
+To effectively tackle the challenges highlighted earlier, the ultimate architectural solution should achieve the following objectives:
+
+- **Incorporate a `Domain` Layer**: Introduce a distinct Domain layer to ensure clear separation of concerns and enhance overall organization.
+
+- **Establish Well-Defined Boundaries and Responsibilities**: Define precise responsibilities and clear boundaries for each layer and component,
+
+- **Enhance Cross-Service Communication**: Create a smoother cross-service communication system, minimizing unnecessary dependencies between services and ensuring seamless interactions.
+
+- **Promote Modularity, Extensibility, and Reusability**: Create a modular design that supports easy extensibility and reusability, laying the foundation for future implementations.
+
+## Architecture overview:
+
+This `Core-Plugin` architecture incorporates components and methodologies from various other arhitecture systems, such as:
+
+- `Clean Architecture.` (Clearly defined layers - Separation of concerns)
+- `Micro-Kernel Architecture.` (Extensibility - Reusability)
+- `Micro Front End Architecture.` (Modularity - Maintainability - Cross-Service communication)
+- `Domain Driven Design.` (Modularity - Reusability - Testability)
+
+...allowing us to make use of the best features of each of these architectures.
 
 ![Full Architecture View](architecture-diagram.png)
+
+## Layers and Definitions:
+
+Before we take a deep dive into the architecture and its components, we will take a look at the layers that make it up, and what is the function of that layer:
+
+- Core / Domain layer:
+  - Defining business logic entities, service interfaces, and repository contracts.
+
+###
+
+- Data layer:
+  - Retrieving data from the server and transforming it into data models.
+
+###
+
+- Adapters and Plugins layer.
+  - Implementing the services and repository contracts defined in the core/domain layer.
+
+###
+
+- Controller layer:
+  - Utilize the plugins (defined in the previous layer) into more practical application components.
+
+###
+
+- Presentation layer:
+  - UI Rendering, State Management and SDK initialization.
+
+###
+
+By knowing exactly what each layer does, we have the flexibility to design each layer in a way that is most suitable, for example, we can incorporate Atomic Design in our Presentation layer or use the classic Widget - Layout - Page design which is implemented currently in our applications. In addition to this flexibility, such a change (Presentation Layer Design) has minimal effect on the other layers of the architecture, which shows how independent each layer is.
+
+## Deep-dive:
+
+Now that we have a general idea of the architecture, we will take a deep dive into each layer and its components.
+
+### Core Layer:
+
+![Core Layer View](core.png)
+
+The core layer is responsible for defining business logic entities, service interfaces, and repository contracts.
+
+- **Entities**: These are the data models used across the application.
+
+- **Services**: These are abstract interfaces defining specific functionality within a given domain. For instance, `BasicLoginService`, `SocialLoginService`, and `OTPLoginService` represent distinct functionalities within the authentication domain. This domain-driven division facilitates the creation of adapters with custom functionality.
+
+- **Repository Contracts**: These are the `data-fetching` methods required by specific services. For example, the `BasicLoginService` might require a `BasicLoginContract` containing a `login` method that returns a `UserEntity`.
+
+##
+
+### Data Layer:
+
+![Data Layer View](data.png)
+
+This layer is responsible for retrieving data from the server and transforming it into data models. This layer encompasses two primary components:
+
+- **Data Models**: These data models precisely represent the `json` responses from the server. They are typically generated using the `flutter_deriv_api` package.
+
+- **Data Sources**: These classes are tasked with fetching data from either a `Remote` source or a `Local` one.
+
+##
+
+### Adapters / Plugins Layer:
+
+![Adapters / Plugins Layer View](plugin.png)
+
+This layer is responsible for implementing the services and repository contracts defined in the core/domain layer. The adapters/plugins layer comprises three main components:
+
+- **Repository**: These are the implementations of the repository contracts defined in the core/domain layer. These are typically utilized by a plugin or plugins.
+
+- **Adapters**: An adapter is essentially a wrapper around a service (or a set of services) from the core/domain layer. It provides a repository contract that aids in implementing this or these services.
+
+- **Plugins**: Plugins extend adapters and offer repository implementations to achieve specific functionalities.
+
+##
+
+### Controller Layer
+
+![Controller Layer View](controller.png)
+
+This layer is accountable for implementing the `plugins` (defined in the previous layer) into more practical application components. For instance, the `AuthenticationPlugin` might find implementation in an `AuthenticationCubit` or an `AuthenticationProvider`, based on the specific requirements of the client application.
+
+Furthermore, this layer can abstract cross-service communication functionality from the subsequent layer. This abstraction enables the `Presentation Layer` to focus exclusively on UI and state management concerns.
+
+- **State Provider**: This is a state management solution that is used to manage the state of the application. It can be a `Cubit`, `Provider`, `MobX` or any other state management solution.
+
+- **Messaging Interface**: This is an interface that is used to communicate between services.
+
+- **Messaging**: This is the implementation of the `Messaging Interface`. It can use `DartMQ`, `BlocManager` or any other cross-service communication solution.
+
+##
+
+### Presentation Layer:
+
+![Presentation Layer View](presentation.png)
+
+This layer is mainly responsible for `UI Rendering`, `State Management` and `SDK initialization`.
+
+- **State Builder**: This is a widget that is used to build the UI based on the state of the application.
+
+- **UI**: This is the UI of the application. It can be built using `Atomic Design`, `Widget - Layout - Page` or any other UI design solution.
+
+##
+
+## Putting it all together:
+
+As we have seen, each layer has its own components and responsibilities, allowing for a more modular, testable, maintainable and extensible codebase.
+
+![Full Architecture View](architecture-final.png)
 
 ## Pros & Cons:
 
@@ -32,108 +170,46 @@ This document is a proposal for a new architecture for all Dart/Flutter projects
 
 - **Complexity**: Any architecture will add some complexity to the codebase. This architecture is no different. However, the benefits outweigh the complexity.
 
-## Architecture Layers:
+## DartMQ: Enhancing Service Communication
 
-### Data Layer:
+`DartMQ` serves as a fundamental tool for enabling communication between different services within our architecture. It operates on a straightforward "publish/subscribe" mechanism, providing a means for services to share information and react to changes. While its adoption is optional, it brings significant advantages to our system.
 
-This layer is responsible for retrieving data from the server and transforming it into data models. This layer encompasses two primary components:
+The messaging system within `DartMQ` offers two primary approaches:
 
-- **Data Models**: These data models precisely represent the `json` responses from the server. They are typically generated using the `flutter_deriv_api` package.
+- `Exchange and Queue Model (Similar to RabbitMQ)`: This model allows services to exchange messages through dedicated queues. It supports the broadcasting of messages to multiple services that are interested in specific topics, thus enhancing the efficiency of communication.
 
-- **Data Sources**: These classes are tasked with fetching data from either a `Remote` source or a `Local` one.
+- `Topic and Queue Model (Similar to Kafka)`: In this model, services communicate through topics. Messages are categorized into topics, enabling more targeted communication between services, leading to more organized interactions.
 
-### Domain/Core Layer
+Real-World Application:
+To illustrate `DartMQ`'s impact, consider the interaction between the following services:
 
-This layer is accountable for defining business logic entities, service interfaces, and repository contracts. The domain/core layer encompasses three primary components:
+- `Market Price Service`: Updates real-time market data.
+- `Trade Service`: Monitors market data changes and manages trades.
+- `Notification Service`: Listens to trade updates and sends notifications to users.
 
-- **Entities**: These are the data models used across the application.
+Given the intricate dependency between these services, `DartMQ` comes to the rescue. It decouples these services, fostering independence. Through `DartMQ`, services can monitor each other's states and act accordingly, all without tight coupling.
 
-- **Services**: These are abstract interfaces defining specific functionality within a given domain. For instance, `BasicLoginService`, `SocialLoginService`, and `OTPLoginService` represent distinct functionalities within the authentication domain. This domain-driven division facilitates the creation of adapters with custom functionality.
+Additionally, `DartMQ` supports the crucial aspect of `Remote Procedure Calls (RPC)` across services. For instance, in scenarios involving distributed transactions across services, `DartMQ` facilitates seamless communication, maintaining the integrity of our processes.
 
-- **Repository Contracts**: These are the `data-fetching` methods required by specific services. For example, the `BasicLoginService` might require a `BasicLoginContract` containing a `login` method that returns a `UserEntity`.
+In essence, `DartMQ` significantly elevates our service communication capabilities, promoting agility, scalability, and modularity within our architecture.
 
-### Adapters / Plugins Layer
+## Q&A:
 
-This layer is responsible for implementing the services and repository contracts defined in the core/domain layer. The adapters/plugins layer comprises three main components:
+### Q: What is the difference between a `Plugin` and an `Adapter`?
 
-- **Repository Implementations**: These are the implementations of the repository contracts defined in the core/domain layer. These are typically utilized by a plugin or plugins.
+- A `Plugin` is an implementation of an `Adapter`. For example, the `AuthenticationPlugin` is an implementation of the `AuthenticationAdapter`.
 
-- **Adapters**: An adapter is essentially a wrapper around a service (or a set of services) from the core/domain layer. It provides a repository contract that aids in implementing this or these services.
+### Q: How will this architecture enhance testability?
 
-- **Plugins**: Plugins extend adapters and offer repository implementations to achieve specific functionalities.
+- By promoting modularity and isolating components, we enable more effective testing, allowing components to be tested in isolation with the use of mocks and stubs.
 
-### Application Layer
+### Q: How does the proposed architecture improve adaptability to new requirements?
 
-This layer is accountable for implementing the `plugins` (defined in the previous layer) into more practical application components. For instance, the `AuthenticationPlugin` might find implementation in an `AuthenticationCubit` or an `AuthenticationProvider`, based on the specific requirements of the client application.
+- By implementing the Domain Layer and promoting modular design, we make it easier to adapt and extend components to meet new requirements.
 
-Furthermore, this layer can abstract cross-service communication functionality from the subsequent layer. This abstraction enables the `Presentation Layer` to focus exclusively on UI and state management concerns.
+### Q: Is DartMQ mandatory for this architecture?
 
-> Side note: DartMQ is a message queue system that can be used to communicate between services. It's a simple pub/sub implementation that can be used to communicate between services. It's not a requirement, but it's a nice-to-have.
-
-### Presentation Layer:
-
-This layer is mainly responsible for `UI Rendering`, `State Management` and `SDK initialization`.
-
-## Example in Practice
-
-### Requirement:
-
-Develop two applications enabling users to track market status and prices across various markets, anytime.
-
-#### Step 1: Establish the `BASE` Components:
-
-BaseEntity - BaseService - BaseContract - BaseDataModel - BaseDataSource
-
-These foundational `BASE` classes serve as blueprints for our components, defining their type and functionality.
-
-#### Step 2: Create a `DOMAIN` Folder:
-
-MarketDataService - abstract mixin - exposes a watchMarkets function returning a `stream` of data to the application.
-
-PriceTickEntity - final - stores data for a single price tick in a market (quote, bid, epoch..).
-
-MarketEntity - final - encompasses market information (name, symbol, open/closed status..).
-
-MarketSubscriptionContract - abstract interface - outlines a subscribe function for accessing market websockets from the API. Requires a Datasource for data retrieval.
-
-#### Step 3: Create the `DATA` Layer:
-
-MarketDataModel - final - translates JSON responses into practical Dart classes.
-
-MarketDatasource - final- subscribes to API endpoints, returning streams of MarketDataModel.
-
-#### Step 4: Create the `PLUGINS` layer:
-
-MarketDataRepository - final - implements MarketeSubscriptionContract - wires the functionality to the MarketDatasource.
-
-MarketDataAdapter - abstract base - usees MarketDataService - depends on MarketDataContract to provide functionality.
-
-MarketDataPlugin - final - extends MarketDataAdapter - wire the functionality with MarketDataRepository.
-
-> Side note: If you are reading this, you are probably way too engaged in this. Is everything ok?
-
-#### Step 5: Create the `APPLICATION` layer:
-
-With a functional plugin in hand, it's time to tailor it to the specific application's needs. For instance, the first application's application layer might host a `BLoC` component for state management, while the second application employs the same plugin within a `MobX` store.` store.
-
-#### Step 6: Create your `UI` layer:
-
-No guidance needed here.
-
-## Q&A
-
-- **Q: How can I add an authentication feature?**
-  - **A:** No need to recreate the `BASE` classes. Simply repeat steps 2-4 to create the necessary components. Afterward, you're free to use the plugin in any application you choose.
-
----
-
-- **Q: How would you handle cross-service communication for allowing only `authorized` users to view market data?**
-  - **A:** Utilize DartMQ. Each feature's application layer should manage the communication logic. For instance, send an `authenticated` or `not-authenticated` message on the `AuthenticationStatus` topic in the message broker. Listen to it where appropriate and respond accordingly.
-
----
-
-- **Q: What if I'm not keen on using DartMQ?**
-  - **A:** It'll grow on you, just give it some time . Alternatively, since DartMQ isn't a core architectural element, you have the flexibility to replace it with any other cross-service communication solution that aligns with your preferences and needs.
+- No, DartMQ is optional but recommended. It simplifies communication between services, enhancing system decoupling.
 
 ## Conclusion
 

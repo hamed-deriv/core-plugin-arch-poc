@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:core_plugin_arch_poc/features/tick_stream/adapter_plugin/adapters/tick_stream.adapter.dart';
 import 'package:core_plugin_arch_poc/features/tick_stream/app/messaging/tick_stream_messaging.interface.dart';
-import 'package:core_plugin_arch_poc/features/tick_stream/domain/entities/tick_stream.entity.dart';
+import 'package:core_plugin_arch_poc/features/tick_stream/domain/entities/tick_stream/tick_stream.entity.dart';
 
 part 'tick_stream_state.dart';
 
@@ -78,8 +78,10 @@ class TickStreamCubit extends Cubit<TickStreamState> {
     if (_tickStreamSubscription != null) {
       _tickStreamSubscription?.cancel();
     }
-    tickStreamMessaging.unSubscribeFromSymbolStream();
-    tickStreamMessaging.unSubscribeFromRPCStream();
+    try {
+      tickStreamMessaging.unSubscribeFromSymbolStream();
+      tickStreamMessaging.unSubscribeFromRPCStream();
+    } catch (e) {}
 
     super.close();
   }

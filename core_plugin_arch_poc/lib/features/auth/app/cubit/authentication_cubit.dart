@@ -35,7 +35,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   Future<void> login(String token) async {
     try {
       emit(AuthenticationLoading());
-      if (token == '1234') {
+      final AuthorizeEntity auth = await plugin.login(token);
+
+      if (auth.token == '1234') {
         messagingInterface.saveToken(token);
         messagingInterface.sendLoggedInnMessage();
         emit(AuthenticationLoggedIn(AuthorizeEntity(token: '1234')));

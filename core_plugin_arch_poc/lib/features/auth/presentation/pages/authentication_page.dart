@@ -38,7 +38,14 @@ class AuthenticationPage extends StatelessWidget {
             builder: (context) {
               return const AlertDialog(
                 title: Text('Please hang on while we check your identity!'),
-                content: CircularProgressIndicator(),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Loading'),
+                    SizedBox(height: 16.0),
+                    CircularProgressIndicator(),
+                  ],
+                ),
               );
             });
         break;
@@ -47,6 +54,7 @@ class AuthenticationPage extends StatelessWidget {
         await NavigatorService.push(context, const Homepage());
         break;
       case AuthenticationError:
+        NavigatorService.pop(context);
         showDialog(
           context: context,
           builder: (context) {

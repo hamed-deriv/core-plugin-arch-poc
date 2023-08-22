@@ -46,13 +46,10 @@ class _SplashPageState extends State<SplashPage> {
                       const SizedBox(
                         height: 120,
                       ),
-                      Image.network(
-                        'https://i.giphy.com/media/pPhyAv5t9V8djyRFJH/200.gif',
-                        scale: 0.8,
-                      ),
-                      const Spacer(),
                       Text(state.toString()),
-                      const Spacer(),
+                      const SizedBox(
+                        height: 120,
+                      ),
                       const CircularProgressIndicator(),
                     ],
                   ),

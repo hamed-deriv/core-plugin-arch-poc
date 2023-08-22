@@ -51,7 +51,7 @@ class SplashCubit extends Cubit<SplashState> with ConsumerMixin, ProducerMixin {
 
   Future<void> startSplash() async {
     emit(SplashLoading('Started splash'));
-    timer = Timer(const Duration(seconds: 3), () async {
+    timer = Timer(const Duration(seconds: 2), () async {
       emit(SplashLoading('Getting connectivity state'));
       await _getConnectivityState();
       emit(SplashLoading('Authenticating'));
