@@ -1,5 +1,24 @@
 # Core-Plugin Architecture:
 
+## Table of Contets:
+
+- [Introduction](#introduction)
+- [Current Challenges](#current-challenges)
+- [Solution Goals](#solution-goals)
+- [Architecture Overview](#architecture-overview)
+- [Layers and Definitions](#layers-and-definitions)
+- [Deep-dive](#deep-dive)
+  - [Core Layer](#core-layer)
+  - [Data Layer](#data-layer)
+  - [Adapters / Plugins Layer](#adapters--plugins-layer)
+  - [Controller Layer](#controller-layer)
+  - [Presentation Layer](#presentation-layer)
+- [Putting it all together](#putting-it-all-together)
+- [Pros & Cons](#pros--cons)
+- [DartMQ: Enhancing Service Communication](#dartmq-enhancing-service-communication)
+- [Q&A](#qa)
+- [Conclusion](#conclusion)
+
 ## Introduction:
 
 Our journey to this new architecture was driven by a clear recognition of the challenges posed by the rapidly evolving requirements of Deriv's mobile applications. While the existing architecture remains serviceable, it has revealed limitations in flexibility, maintainability, and scalability as our app grew in complexity. These challenges have led to longer development cycles, increased technical debt, and potential bottlenecks when introducing new features or addressing user feedback promptly.
