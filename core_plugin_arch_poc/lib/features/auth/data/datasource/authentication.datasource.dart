@@ -6,7 +6,6 @@ final class AuthenticationDataSource extends BaseAuthenticationDataSource {
   Future<AuthorizeModel> login(String token) async => await Future.delayed(
         const Duration(seconds: 2),
         () {
-          print('authentication');
           return AuthorizeModel(
             token: token,
           );

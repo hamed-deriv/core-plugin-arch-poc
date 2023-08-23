@@ -36,4 +36,7 @@ class Message extends BaseMessage {
         other.payload == payload &&
         other.timestamp == timestamp;
   }
+
+  @override
+  int get hashCode => headers.hashCode ^ payload.hashCode ^ timestamp.hashCode;
 }

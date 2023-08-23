@@ -36,7 +36,6 @@ final class SplashMessaging
     required Function onDisconnected,
   }) =>
       subscribeToTopic('Connection', (Message message) {
-        print(message.payload);
         final bool connectionResult = message.payload as bool;
         if (connectionResult == true) {
           onConnected.call();

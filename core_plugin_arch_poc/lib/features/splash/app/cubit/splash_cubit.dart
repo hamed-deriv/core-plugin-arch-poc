@@ -60,3 +60,21 @@ class SplashCubit extends Cubit<SplashState> with ConsumerMixin, ProducerMixin {
     });
   }
 }
+
+    // anger = formatted_response['emotionPredictions']['emotion']['anger']
+    // disgust = formatted_response['emotionPredictions']['emotion']['disgust']
+    // fear = formatted_response['emotionPredictions']['emotion']['fear']
+    // joy = formatted_response['emotionPredictions']['emotion']['joy']
+    // saddness = formatted_response['emotionPredictions']['emotion']['saddness']
+
+    // emotions_map = {
+    //     'anger': anger,
+    //     'disgust': disgust,
+    //     'fear': fear,
+    //     'joy': joy,
+    //     'saddness': saddness,
+    // }
+
+    // dominant = find_dominant_emotion(emotions_map)
+
+    // return emotions_map.append({'dominant': dominant})

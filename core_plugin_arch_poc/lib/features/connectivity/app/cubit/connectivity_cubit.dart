@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:kafka_clone/shelf.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core_plugin_arch_poc/features/connectivity/adapter-plugin/adapters/connectivity.adapter.dart';
 
 part 'connectivity_state.dart';
